@@ -1,7 +1,7 @@
 # using psycopg2
 import psycopg2
 
-connection = psycopg2.connect('dbname=postgres user=postgres password=test4Echo')
+connection = psycopg2.connect('dbname=postgres user=postgres')
 
 cursor = connection.cursor()
 
