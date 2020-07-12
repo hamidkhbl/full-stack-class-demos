@@ -15,23 +15,44 @@
             font-size: 10px;
             width: 200px;
         }
+
+        .lists-wrapper, .todos-wrapper {
+            display: inline-block;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
+    <div class="lists-wrapper">
+        <ul>
+            {%for list in lists%}
+            <li>
+                <a href="/lists/{{list.id}}">{{list.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="todos-wrapper">
+    <h4>{{active_list.name}}</h4>
     <form id="form">
         <input type="text" name="description", id="description"/>
         <input type="submit" value="Create"/>
     </form>
-    <ul id='todos'>
 
-        {% for d in data%}
-        <li>
-            <input type="checkbox" data-id="{{ d.id }}" class="check-completed"
-            {% if d.completed  %} checked {%endif%}/> {{d.description}}
-            <button class="cross-button" data-id="{{ d.id }}">&cross;</button>
-        </li>
-        {% endfor%}
-    </ul>
+        <ul id='todos'>
+
+            {% for d in data%}
+            <li>
+                <input type="checkbox" data-id="{{ d.id }}" class="check-completed"
+                {% if d.completed  %} checked {%endif%}/> {{d.description}}
+                <button class="cross-button" data-id="{{ d.id }}">&cross;</button>
+            </li>
+            {% endfor%}
+        </ul>
+
+    </div>
+
 
     <script>
         const checkboxes = document.querySelectorAll('.check-completed')
