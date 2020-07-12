@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>todo list</title>
+    <style>
+        li button{
+            -webkit-appearance: none;
+            border: none;
+            outline: none;
+            color: red;
+            float: right;
+            cursor: pointer;
+            font-size: 10px;
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
     <form id="form">
@@ -11,8 +23,13 @@
         <input type="submit" value="Create"/>
     </form>
     <ul id='todos'>
+
         {% for d in data%}
-        <li><input type="checkbox" data-id="{{ d.id }}" class="check-completed" {% if d.completed  %} checked {%endif%}/> {{d.description}}</li>
+        <li>
+            <input type="checkbox" data-id="{{ d.id }}" class="check-completed"
+            {% if d.completed  %} checked {%endif%}/> {{d.description}}
+            <button class="cross-button" data-id="{{ d.id }}">&cross;</button>
+        </li>
         {% endfor%}
     </ul>
 
@@ -39,6 +56,20 @@
                 })
             }
         }
+
+
+        const corsses = document.querySelectorAll('.cross-button');
+        for(let i = 0; i < corsses.length; i++){
+            const corss = corsses[i];
+            corss.onclick = function(e){
+                console.log('event', e);
+                const todoId = e.target.dataset['id'];
+                fetch('/todos/' +todoId, {
+                    method: 'DELETE',
+                });
+            }
+        }
+
         document.getElementById('form').onsubmit = function(e){
             e.preventDefault();
             fetch('/todos/create', {
@@ -60,6 +91,8 @@
                 document.getElementById('todos').appendChild(liItem)
             });
         }
+
+
     </script>
 </body>
 </html>
